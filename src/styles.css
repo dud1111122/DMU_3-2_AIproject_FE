@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+:root { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; color: #111; background: #fff; font-synthesis: none; text-rendering: optimizeLegibility; }
+* { box-sizing: border-box; }
+html, body, #root { width: 100%; min-height: 100%; margin: 0; }
+body { min-width: 320px; min-height: 100dvh; background: #fff; }
+button, input { color: inherit; font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 2px solid #3797f0; outline-offset: 2px; }
+.phone-frame { isolation: isolate; }
+.phone-inner { border-radius: inherit; }
+.phone-status { position: relative; z-index: 35; }
+.status-bars { font-size: 9px; letter-spacing: -2px; transform: rotate(180deg); }
+.battery { position: relative; display: inline-flex; width: 17px; height: 9px; align-items: center; border: 1px solid #111; border-radius: 2px; padding: 1px; }
+.battery::after { position: absolute; right: -3px; width: 2px; height: 4px; border-radius: 0 2px 2px 0; background: #111; content: ""; }
+.battery i { display: block; width: 75%; height: 100%; border-radius: 1px; background: #111; }
+.phone-side-button { display: none; }
+.wordmark { font-family: "Brush Script MT", "Segoe Script", cursive; font-size: 27px; font-weight: 600; letter-spacing: -.06em; }
+.story-ring { background: linear-gradient(35deg, #ffd776 0%, #f56040 34%, #e1306c 65%, #c13584 84%, #833ab4 100%); }
+.reel-feed { scrollbar-width: none; }
+.reel-feed::-webkit-scrollbar { display: none; }
+@media (min-width: 520px) {
+  .phone-frame { overflow: visible; }
+  .phone-inner { overflow: hidden; border-radius: 35px; }
+  .phone-side-button { position: absolute; right: -11px; top: 130px; display: block; width: 4px; height: 58px; border-radius: 0 3px 3px 0; background: #343434; }
+}
+@media (max-width: 519px) {
+  .phone-inner { border-radius: 0; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
