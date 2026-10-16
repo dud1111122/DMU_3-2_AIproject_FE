@@ -1,0 +1,92 @@
+/* Adapted from daisyUI's MIT-licensed mockup-phone component.
+ * https://github.com/saadeghi/daisyui/blob/master/packages/daisyui/src/components/mockup.css
+ * Copyright (c) 2020 Pouya Saadeghi. License: ./daisyui-LICENSE
+ * Local additions: viewport sizing, status bar, home indicator, mobile layout.
+ */
+.phone-stage {
+  display: flex;
+  min-height: 100dvh;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #fff;
+}
+.mockup-phone {
+  position: relative;
+  isolation: isolate;
+  display: inline-grid;
+  justify-items: center;
+  border: 5px solid #6b6b6b;
+  border-radius: 65px;
+  background-color: #000;
+  padding: 6px;
+  overflow: hidden;
+  width: min(402px, calc((100dvh - 48px) * 462 / 978));
+  aspect-ratio: 462 / 978;
+}
+.mockup-phone-camera {
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
+  background: #000;
+  height: 3.7%;
+  width: 28%;
+  border-radius: 17px;
+  z-index: 40;
+  margin-top: 3%;
+  pointer-events: none;
+}
+.mockup-phone-display {
+  border-radius: 54px;
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+.phone-status {
+  position: relative;
+  z-index: 35;
+  display: flex;
+  height: 58px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.battery {
+  position: relative;
+  display: inline-flex;
+  width: 20px;
+  height: 10px;
+  margin-right: 3px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  padding: 1px;
+}
+.battery::after {
+  position: absolute;
+  right: -3px;
+  top: 2px;
+  width: 2px;
+  height: 4px;
+  border-radius: 0 2px 2px 0;
+  background: currentColor;
+  content: "";
+}
+.battery i { display: block; width: 75%; height: 100%; border-radius: 1px; background: currentColor; }
+.phone-home-indicator { display: flex; height: 22px; flex-shrink: 0; align-items: center; justify-content: center; }
+.phone-home-indicator span { width: 34%; height: 4px; border-radius: 999px; background: currentColor; }
+@media (max-width: 639px) {
+  .phone-stage { padding: 0; }
+  .mockup-phone { display: flex; width: 100%; height: 100dvh; aspect-ratio: auto; padding: 0; border: 0; border-radius: 0; }
+  .mockup-phone-display { border-radius: 0; }
+  .mockup-phone-camera, .phone-home-indicator { display: none; }
+  .phone-status { height: 25px; padding: 0 24px; font-size: 10px; }
+}
+/* 로컬 추가: ?bare=1 일 때 휴대폰 틀 없이 화면만 393×852로 그린다(스크린샷용, iOS 스크린샷처럼 홈 인디케이터·모서리 없음). */
+.phone-bare { display: block; min-height: 0; padding: 0; background: none; }
+.phone-bare .mockup-phone-display { width: 393px; height: 852px; border-radius: 0; }
