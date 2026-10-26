@@ -1,18 +1,27 @@
-import Icon from '../components/Icon.jsx'
-import Stories from '../components/Stories.jsx'
+import { useState } from 'react'
 import PostCard from '../components/PostCard.jsx'
-import { people, posts } from '../data/content.js'
+import { api } from '../api/index.js'
+import { usePaged } from '../shared/hooks.js'
+import { useStore } from '../shared/store.jsx'
+import { Empty, ListState, MemberGate } from './ui.jsx'
 
-export default function HomeScreen({ onOpenPerson, onOpenStory, onAddStory, onOpenPost, onOpenComments, savedIds, likedIds, onToggleSave, onToggleLike, onOpenActivity }) {
-  return <div className="h-full overflow-y-auto pb-20">
-    <header className="flex h-[54px] items-center justify-between px-4">
-      <button className="wordmark" onClick={() => window.scrollTo(0, 0)} aria-label="디쇼츠 홈">디쇼츠</button>
-      <div className="flex items-center gap-4">
-        <button onClick={() => onOpenActivity('새 게시물')} aria-label="새 게시물 만들기"><Icon name="plus" size={26} strokeWidth={2} /></button>
-        <button onClick={() => onOpenActivity('알림')} aria-label="알림"><Icon name="heart" size={25} /></button>
-      </div>
-    </header>
-    <Stories onOpen={onOpenStory} onAddStory={onAddStory} />
-    {posts.map((post) => <PostCard key={post.id} post={post} person={people.find((person) => person.id === post.personId)} saved={savedIds.includes(post.id)} liked={likedIds.includes(post.id)} onToggleSave={onToggleSave} onToggleLike={onToggleLike} onOpenPerson={onOpenPerson} onOpenPost={onOpenPost} onOpenComments={onOpenComments} />)}
+// 홈: 피드(최신순, 팔로잉·주제 필터).
+export default function HomeScreen({ onOpenPost, onOpenPersona, onOpenChat, onOpenMenu, onShare }) {
+  const { isMember, topics } = useStore()
+  const [filter, setFilter] = useState('all')
+  const feed = usePaged((cursor) => {
+    if (filter === 'following') return isMember ? api.feed({ cursor, following: true }) : Promise.resolve({ items: [], nextCursor: null })
+    return api.feed({ cursor, topicId: filter === 'all' ? undefined : filter })
+  }, [filter])
+  const chips = [{ key: 'all', label: '전체' }, { key: 'following', label: '팔로잉' }, ...topics.map((topic) => ({ key: topic.id, label: topic.name }))]
+
+  return <div className="pb-4">
+    <div role="radiogroup" aria-label="피드 필터" className="no-scrollbar flex gap-2 overflow-x-auto px-3 py-2.5">
+      {chips.map((chip) => <button key={chip.key} role="radio" aria-checked={filter === chip.key} onClick={() => setFilter(chip.key)} className={`h-7 shrink-0 rounded-full px-3 text-[11px] font-semibold ${filter === chip.key ? 'bg-[#111] text-white' : 'bg-[#efefef] text-[#111]'}`}>{chip.label}</button>)}
+    </div>
+
+    {filter === 'following' && !isMember ? <MemberGate text="팔로우한 페르소나의 게시물은 로그인 후 볼 수 있어요." /> : <ListState list={feed} empty={<Empty icon="home" text={filter === 'following' ? '팔로우한 페르소나의 게시물이 아직 없어요. 돋보기에서 페르소나를 찾아 팔로우해 보세요.' : '아직 게시물이 없어요.'} />}>
+      {feed.items.map((post) => <PostCard key={post.id} post={post} onOpenPost={onOpenPost} onOpenPersona={onOpenPersona} onOpenChat={onOpenChat} onOpenMenu={onOpenMenu} onShare={onShare} />)}
+    </ListState>}
   </div>
 }
