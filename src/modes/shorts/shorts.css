@@ -1,0 +1,13 @@
+/* 유튜브 쇼츠 모드 전용 스타일. ShortsApp.jsx에서만 불러온다. */
+.shorts-root { -webkit-tap-highlight-color: transparent; }
+.shorts-shadow { text-shadow: 0 1px 3px rgba(0, 0, 0, .7), 0 0 2px rgba(0, 0, 0, .6); }
+.shorts-icon-shadow { filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .6)); }
+.shorts-textcard { background: radial-gradient(120% 80% at 20% 10%, #2c2a3a 0%, #17161d 55%, #0b0b0d 100%); }
+.shorts-track { transition: transform .28s cubic-bezier(.2, .8, .2, 1); will-change: transform; }
+.shorts-track.dragging { transition: none; }
+.shorts-spinner { width: 28px; height: 28px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, .2); border-top-color: #fff; animation: shorts-spin .8s linear infinite; }
+@keyframes shorts-spin { to { transform: rotate(360deg); } }
+.shorts-sheet { animation: shorts-sheet-in .22s ease-out; }
+@keyframes shorts-sheet-in { from { transform: translateY(24px); opacity: .6; } to { transform: none; opacity: 1; } }
+.shorts-chips { mask-image: linear-gradient(90deg, #000 85%, transparent); }
+.shorts-root textarea { color: inherit; font: inherit; }
