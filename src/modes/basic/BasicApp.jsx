@@ -1,6 +1,8 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import PhoneFrame from '../../shared/PhoneFrame.jsx'
 import useBrowserBack from '../../shared/useBrowserBack.js'
+import Guide from '../../shared/Guide.jsx'
+import { guideSteps, useGuide } from '../../shared/guide.js'
 import { PledgeGate } from '../../shared/PledgeSheet.jsx'
 import { BIcon, NavContext, SheetRootContext } from './ui.jsx'
 import BasicHome from './BasicHome.jsx'
@@ -24,6 +26,7 @@ const fullScreens = ['chat', 'quiz']
 
 // 탭마다 화면 스택을 따로 두고, 다녀간 화면은 숨겨 둔 채 유지해 뒤로 가도 스크롤·불러온 목록이 남는다.
 export default function BasicApp({ onChangeMode }) {
+  const [guideOpen, closeGuide] = useGuide('basic')
   const [tab, setTab] = useState('home')
   const [stacks, setStacks] = useState({ home: [{ screen: 'home', key: 0 }] })
   const [sheetRoot, setSheetRoot] = useState(null)
@@ -88,13 +91,14 @@ export default function BasicApp({ onChangeMode }) {
           </div>))}
         </div>
         {!fullScreens.includes(current.screen) && <nav aria-label="주요 메뉴" className="grid h-[60px] shrink-0 grid-cols-5 border-t border-[#e7e3da] bg-[#fbfaf7]">
-          {tabs.map((item) => <button key={item.id} onClick={() => selectTab(item.id)} aria-current={tab === item.id ? 'page' : undefined} className={`flex flex-col items-center justify-center gap-1 ${tab === item.id ? 'text-[#1c1b19]' : 'text-[#6f6b63]'}`}>
+          {tabs.map((item) => <button key={item.id} data-guide={`tab-${item.id}`} onClick={() => selectTab(item.id)} aria-current={tab === item.id ? 'page' : undefined} className={`flex flex-col items-center justify-center gap-1 ${tab === item.id ? 'text-[#1c1b19]' : 'text-[#6f6b63]'}`}>
             <BIcon name={item.icon} size={21} strokeWidth={tab === item.id ? 2.2 : 1.8} />
             <span className="text-[10px] font-medium">{item.label}</span>
           </button>)}
         </nav>}
         <div ref={setSheetRoot} />
         <PledgeGate theme="basic" />
+        {guideOpen && tab === 'home' && stack.length === 1 && <Guide mode="basic" steps={guideSteps.basic} onClose={closeGuide} />}
       </SheetRootContext.Provider>
     </NavContext.Provider>
   </PhoneFrame>

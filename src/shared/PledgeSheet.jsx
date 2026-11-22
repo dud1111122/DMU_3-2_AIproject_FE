@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { errorMessage } from '../api/errors.js'
 import { useStore } from './store.jsx'
+import { useGuideRunning } from './guide.js'
 import { PLEDGE_MAX, PLEDGE_MIN, askedToday, markAskedToday } from './usage.js'
 import { THEME } from './UsageComponents.jsx'
 import { savePledge, useUsageSummary } from './useUsage.js'
@@ -12,11 +13,13 @@ const PRESETS = [5, 10, 20, 30]
 // 기본 모드 셸(BasicApp)에서만 렌더링한다.
 export function PledgeGate({ theme = 'basic' }) {
   const { summary, loading } = useUsageSummary()
+  const guideRunning = useGuideRunning()
   const [open, setOpen] = useState(false)
+  // 처음 안내가 떠 있는 동안에는 묻지 않는다. 안내가 끝나면 그때 띄운다. 기획 §4.
   useEffect(() => {
-    if (loading || !summary || open) return
+    if (loading || !summary || open || guideRunning) return
     if (summary.needsPledge && !askedToday()) setOpen(true)
-  }, [loading, summary, open])
+  }, [loading, summary, open, guideRunning])
   if (!open) return null
   return <PledgeSheet theme={theme} onDone={() => setOpen(false)} />
 }

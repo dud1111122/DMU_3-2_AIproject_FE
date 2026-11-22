@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import Guide from './shared/Guide.jsx'
+import { guideSteps, useGuide } from './shared/guide.js'
 import BottomNav from './components/BottomNav.jsx'
 import Icon from './components/Icon.jsx'
 import ModeSheet from './shared/ModeSheet.jsx'
@@ -19,6 +21,7 @@ import ReportSheet from './screens/ReportSheet.jsx'
 // 인스타그램 모드: 하단 탭 5개가 루트이고, 게시물·퀴즈·대화·인물 등은 스택으로 쌓인다.
 // 항목에 post 객체가 있으면 먼저 보여 주고, 없으면 화면이 서버에서 불러온다.
 export default function InstagramApp({ onChangeMode }) {
+  const [guideOpen, closeGuide] = useGuide('instagram')
   const nav = useNavStack({ screen: 'home' })
   const { requireMember, showToast } = useStore()
   const [sheet, setSheet] = useState(null)
@@ -76,6 +79,7 @@ export default function InstagramApp({ onChangeMode }) {
       <button onClick={() => openReport(sheet.post)} className="flex h-12 w-full items-center gap-3 text-left text-[14px] text-[#e5484d]"><Icon name="flag" size={21} />신고하기</button>
     </Sheet>}
     {sheet?.type === 'report' && <ReportSheet post={sheet.post} onClose={() => setSheet(null)} />}
+    {guideOpen && current.screen === 'home' && <Guide mode="instagram" steps={guideSteps.instagram} onClose={closeGuide} />}
     {modeOpen && <ModeSheet current="instagram" onSelect={(id) => { setModeOpen(false); onChangeMode(id) }} onClose={() => setModeOpen(false)} />}
   </PhoneFrame>
 }

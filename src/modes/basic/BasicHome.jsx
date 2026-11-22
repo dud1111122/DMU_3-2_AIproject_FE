@@ -27,7 +27,7 @@ export default function BasicHome() {
 
   return <div className="pb-6">
     <TopBar large title="디쇼츠" />
-    <div role="group" aria-label="피드 필터" className="no-scrollbar flex gap-1.5 overflow-x-auto border-b border-[#e7e3da] px-4 py-2.5">
+    <div role="group" aria-label="피드 필터" data-guide="basic-filter" className="no-scrollbar flex gap-1.5 overflow-x-auto border-b border-[#e7e3da] px-4 py-2.5">
       <Chip active={filter === 'all'} onClick={() => setFilter('all')}>전체</Chip>
       <Chip active={filter === 'following'} onClick={chooseFollowing}>팔로우</Chip>
       {topics.map((topic) => <Chip key={topic.id} active={filter === topic.id} onClick={() => setFilter(topic.id)}>{topic.name}</Chip>)}
@@ -38,14 +38,15 @@ export default function BasicHome() {
       {!list.loading && !feed.error && !items.length && (filter === 'following'
         ? <Empty title="팔로우한 인물의 글이 없어요" text="인물 프로필에서 팔로우하면 그 인물의 새 글을 여기에서 모아 볼 수 있어요." action={<GhostButton onClick={() => nav.goTab('explore')}>인물 둘러보기</GhostButton>} />
         : <Empty title="아직 게시물이 없어요" text="다른 주제를 골라 보세요." />)}
-      {items.length > 0 && <BundleFeed list={list} resetKey={scope} theme="basic" renderPost={(post, index) => <FeedCard key={post.id} post={post} eager={index < 2} onOpen={nav.openPost} />} />}
+      {items.length > 0 && <BundleFeed list={list} resetKey={scope} theme="basic" renderPost={(post, index) => <FeedCard key={post.id} post={post} eager={index < 2} first={index === 0} onOpen={nav.openPost} />} />}
     </div>
   </div>
 }
 
-function FeedCard({ post, eager, onOpen }) {
+function FeedCard({ post, eager, first, onOpen }) {
   const cover = post.sections[0]?.image
-  return <article className="mb-4 overflow-hidden rounded-2xl border border-[#e7e3da] bg-white">
+  // 첫 카드는 처음 안내가 짚는 자리다(기획 §4).
+  return <article data-guide={first ? 'basic-card' : undefined} className="mb-4 overflow-hidden rounded-2xl border border-[#e7e3da] bg-white">
     <button onClick={() => onOpen(post.id)} className="block w-full text-left" aria-label={`${post.persona.displayName}의 글 「${post.title}」 열기`}>
       {cover && <SafeImage image={cover} eager={eager} className="aspect-[4/3] w-full" />}
       <div className="px-4 pt-3.5">

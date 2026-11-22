@@ -100,11 +100,11 @@ export function ActionBar({ post, carousel, onOpenChat, onShare }) {
 }
 
 // onOpenPost를 넘기지 않으면 카드 탭·'자세히 보기'로 상세에 들어가지 않는다. 인스타그램 모드 홈이 그렇다. 기획 §4.
-export default function PostCard({ post, onOpenPost, onOpenPersona, onOpenChat, onOpenMenu, onShare }) {
+export default function PostCard({ post, first, onOpenPost, onOpenPersona, onOpenChat, onOpenMenu, onShare }) {
   const { likeCount } = useStore()
   const carousel = useCarousel(post.sections.length)
   const counts = post.keyPoints ? `학습 포인트 ${post.keyPoints.length}개 · 참고 문헌 ${post.sources.length}개` : ''
-  return <article className="border-b border-[#efefef] pb-3" aria-label={`${post.persona.displayName}의 게시물: ${post.title}`}>
+  return <article data-guide={first ? 'ig-card' : undefined} className="border-b border-[#efefef] pb-3" aria-label={`${post.persona.displayName}의 게시물: ${post.title}`}>
     <PersonaHeader post={post} onOpenPersona={onOpenPersona} onOpenMenu={onOpenMenu} />
     <Carousel post={post} carousel={carousel} onTap={onOpenPost ? () => onOpenPost(post) : undefined} />
     <ActionBar post={post} carousel={carousel} onOpenChat={onOpenChat} onShare={onShare} />

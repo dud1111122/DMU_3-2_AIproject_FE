@@ -4,6 +4,7 @@ import { errorMessage } from '../../api/errors.js'
 import { usePaged } from '../../shared/hooks.js'
 import { useStore } from '../../shared/store.jsx'
 import { modes } from '../../shared/modes.js'
+import { restartGuide } from '../../shared/guide.js'
 import { reviewReasonLabels } from '../../shared/format.js'
 import { BundleSizeSelect } from '../../shared/UsageComponents.jsx'
 import Icon from '../../components/Icon.jsx'
@@ -58,6 +59,13 @@ export function BasicMe({ onChangeMode }) {
         <SectionTitle id="me-bundle">묶음 보기</SectionTitle>
         <p className="mt-2 text-[11px] leading-5 text-[#6f6b63]">홈 피드와 쇼츠에서 한 번에 볼 게시물 수예요. 묶음을 다 보면 멈출지 정할 수 있어요. 이 기기에 저장돼요.</p>
         <div className="mt-3"><BundleSizeSelect theme="basic" /></div>
+      </section>
+
+      <section className="mt-7" aria-labelledby="me-guide">
+        <SectionTitle id="me-guide">사용 안내</SectionTitle>
+        <div className="mt-2 divide-y divide-[#e7e3da] rounded-xl border border-[#e7e3da] bg-white">
+          <MenuRow icon="refresh" label="처음 안내 다시 보기" onClick={() => { nav.goTab('home'); restartGuide('basic') }} />
+        </div>
       </section>
 
       <section className="mt-7" aria-labelledby="me-mode">

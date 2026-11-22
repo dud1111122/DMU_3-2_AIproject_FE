@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import Guide from '../../shared/Guide.jsx'
+import { guideSteps, useGuide } from '../../shared/guide.js'
 import PhoneFrame from '../../shared/PhoneFrame.jsx'
 import ModeSheet from '../../shared/ModeSheet.jsx'
 import useNavStack from '../../shared/useNavStack.js'
@@ -13,6 +15,7 @@ import './shorts.css'
 
 // 쇼츠 모드 최상위 화면. 피드는 항상 맨 아래에 남기고, 검색·채널·학습 등은 스택으로 그 위에 연다.
 export default function ShortsApp({ onChangeMode }) {
+  const [guideOpen, closeGuide] = useGuide('shorts')
   const nav = useNavStack({ screen: 'feed' })
   const { current } = nav
   const onRoot = !nav.canGoBack
@@ -75,6 +78,7 @@ export default function ShortsApp({ onChangeMode }) {
       {sheet?.type === 'mode' && <ModeSheet dark current="shorts" onSelect={onChangeMode} onClose={closeSheet} />}
       {sheet?.type === 'info' && <InfoSheet post={sheet.post} onClose={closeSheet} onOpenChannel={(persona) => { closeSheet(); openChannel(persona.id) }} onQuiz={() => go({ screen: 'quiz', post: sheet.post })} onChat={() => go({ screen: 'chat', post: sheet.post })} />}
       {sheet?.type === 'report' && <ReportSheet post={sheet.post} onClose={closeSheet} />}
+      {guideOpen && onRoot && <Guide mode="shorts" steps={guideSteps.shorts} dark onClose={closeGuide} />}
     </div>
   </PhoneFrame>
 }

@@ -20,5 +20,8 @@ button:focus-visible, input:focus-visible { outline: 2px solid #3797f0; outline-
 .font-editorial { font-family: "Noto Serif KR", "AppleMyungjo", "Nanum Myeongjo", serif; }
 .font-basic { font-family: "Nanum Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; letter-spacing: 0; }
 .shorts-caption { text-shadow: 0 2px 8px rgba(0, 0, 0, .65), 0 0 2px rgba(0, 0, 0, .8); }
+/* 처음 안내(가이드): 큰 그림자로 휴대폰 화면을 덮고 설명 대상만 뚫는다. 그림자는 휴대폰 화면이 잘라내므로 목업 바깥은 어두워지지 않는다. 기획 §4. */
+.guide-hole { position: absolute; pointer-events: none; box-shadow: 0 0 0 9999px rgba(12, 10, 9, .62); }
+.guide-hole, .guide-pop { transition: top .32s cubic-bezier(.4, 0, .2, 1), left .32s cubic-bezier(.4, 0, .2, 1), width .32s cubic-bezier(.4, 0, .2, 1), height .32s cubic-bezier(.4, 0, .2, 1), border-radius .32s cubic-bezier(.4, 0, .2, 1); }
 /* 위의 button 색상 상속 규칙이 Tailwind 색상 유틸리티를 덮어쓰므로, 새 모드 화면에서는 유틸리티 색이 적용되게 되돌린다. */
 .mode-ui button, .mode-ui input, button.mode-ui { color: revert-layer; }

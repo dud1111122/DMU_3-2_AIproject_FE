@@ -115,6 +115,7 @@
 - 화면 틀: 가로 640px 미만에서는 `PhoneFrame`의 목업 테두리와 **가짜 상단 바(`.phone-status`)를 CSS로 숨긴다**. 실제 기기 상태 표시줄과 겹치지 않게 안전 영역만큼만 띄운다. 기획 §4.
 - 뒤로 가기: 화면 스택이 깊어지면 `useBrowserBack`(`src/shared/useBrowserBack.js`)이 브라우저 기록을 같이 쌓는다. 새 모드나 화면 스택을 만들면 이 훅에 깊이와 뒤로 가기 함수를 넘긴다. 화면 안 '뒤로'로만 스택을 줄이고, 직접 `history`를 건드리지 않는다. 기획 §4.
 - 인스타그램 모드 홈 피드: `PostCard`에 `onOpenPost`를 넘기지 않아 카드 탭·'자세히 보기'로 상세에 들어가지 않는다. 메뉴 시트도 `canOpen: false`로 '게시물 자세히 보기'를 숨긴다. 탐색·저장함·페르소나 화면은 그대로 상세를 연다. 기획 §4.
+- 처음 안내: `useGuide(mode)` + `<Guide mode steps>`(`src/shared/guide.js`, `Guide.jsx`). 단계는 `guideSteps[mode]`에 두고 대상은 `data-guide="..."` 속성으로 짚는다. 새 단계를 넣으면 대상 요소에 그 속성을 달고, 화면에 없을 수 있는 대상은 자동으로 건너뛴다. 가이드가 떠 있는 동안 `useGuideRunning()`이 참이라 `PledgeGate`는 기다린다. 기획 §4.
 - 난이도 개념은 없다. 사용자 게시물 작성·관리자 화면·댓글은 만들지 않는다.
 
 ## 게시물 시드 형식 (`src/data/posts.js`의 `seedPosts`)

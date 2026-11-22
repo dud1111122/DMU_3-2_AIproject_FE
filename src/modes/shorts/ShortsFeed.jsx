@@ -84,7 +84,7 @@ export function MainFeed({ feed, filter, onFilter, active, onSearch, onMenu, onR
   return <div className="relative h-full">
     {body}
     <FeedHeader onSearch={onSearch} onMenu={() => onMenu(activePost)}>
-      <div role="toolbar" aria-label="피드 필터" className="shorts-chips no-scrollbar pointer-events-auto flex h-10 items-center gap-2 overflow-x-auto px-4">
+      <div role="toolbar" aria-label="피드 필터" data-guide="shorts-filter" className="shorts-chips no-scrollbar pointer-events-auto flex h-10 items-center gap-2 overflow-x-auto px-4">
         {chips.map((chip) => <Chip key={chip.id} active={filter === chip.id} onClick={() => choose(chip.id)}>{chip.name}</Chip>)}
       </div>
     </FeedHeader>

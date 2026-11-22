@@ -10,7 +10,7 @@ const tabs = [
 
 export default function BottomNav({ active, onNavigate }) {
   return <nav aria-label="주요 메뉴" className="relative z-30 grid h-[54px] w-full shrink-0 grid-cols-5 items-center border-t border-[#dbdbdb] bg-white px-2">
-    {tabs.map((tab) => <button key={tab.id} type="button" onClick={() => onNavigate(tab.id)} className="flex h-full flex-col items-center justify-center text-[#111]" aria-label={tab.label} aria-current={active === tab.id ? 'page' : undefined}>
+    {tabs.map((tab) => <button key={tab.id} type="button" data-guide={`ig-tab-${tab.id}`} onClick={() => onNavigate(tab.id)} className="flex h-full flex-col items-center justify-center text-[#111]" aria-label={tab.label} aria-current={active === tab.id ? 'page' : undefined}>
       <Icon name={tab.icon} size={25} strokeWidth={active === tab.id ? 2.4 : 1.8} filled={active === tab.id && tab.id === 'home'} />
     </button>)}
   </nav>
