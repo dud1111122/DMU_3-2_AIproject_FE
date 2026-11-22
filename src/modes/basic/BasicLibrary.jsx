@@ -23,7 +23,7 @@ export function BasicMe({ onChangeMode }) {
         <h2 id="me-guest" className="font-basic text-[18px] font-bold text-balance">로그인하지 않은 상태예요</h2>
         <p className="mt-2 text-[12px] leading-5 text-[#6f6b63]">로그인하면 팔로우·좋아요·저장과 퀴즈 기록, 복습, 토론 기록을 남길 수 있어요. 지금은 글 읽기·퀴즈·대화를 체험할 수 있어요. 토론은 로그인 후 만들 수 있어요.</p>
         <PrimaryButton onClick={() => promptLogin('로그인하면 팔로우·저장·복습 기록을 남길 수 있어요.')} className="mt-4 w-full">로그인</PrimaryButton>
-        {API_MODE === 'mock' && <p className="mt-2 text-center text-[11px] text-[#6f6b63]">시연 계정 · demo / demo1234</p>}
+        {API_MODE === 'mock' && <p className="mt-2 text-center text-[11px] text-[#6f6b63]">시연 계정 · demo / demo-local-1234</p>}
       </section>}
 
       {isMember && <section className="rounded-2xl border border-[#e7e3da] bg-white p-5" aria-labelledby="me-account">

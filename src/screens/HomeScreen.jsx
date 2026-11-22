@@ -5,8 +5,8 @@ import { usePaged } from '../shared/hooks.js'
 import { useStore } from '../shared/store.jsx'
 import { Empty, ListState, MemberGate } from './ui.jsx'
 
-// 홈: 피드(최신순, 팔로잉·주제 필터).
-export default function HomeScreen({ onOpenPost, onOpenPersona, onOpenChat, onOpenMenu, onShare }) {
+// 홈: 피드(최신순, 팔로잉·주제 필터). 카드에서 게시물 상세로는 들어가지 않는다(기획 §4).
+export default function HomeScreen({ onOpenPersona, onOpenChat, onOpenMenu, onShare }) {
   const { isMember, topics } = useStore()
   const [filter, setFilter] = useState('all')
   const feed = usePaged((cursor) => {
@@ -21,7 +21,7 @@ export default function HomeScreen({ onOpenPost, onOpenPersona, onOpenChat, onOp
     </div>
 
     {filter === 'following' && !isMember ? <MemberGate text="팔로우한 페르소나의 게시물은 로그인 후 볼 수 있어요." /> : <ListState list={feed} empty={<Empty icon="home" text={filter === 'following' ? '팔로우한 페르소나의 게시물이 아직 없어요. 돋보기에서 페르소나를 찾아 팔로우해 보세요.' : '아직 게시물이 없어요.'} />}>
-      {feed.items.map((post) => <PostCard key={post.id} post={post} onOpenPost={onOpenPost} onOpenPersona={onOpenPersona} onOpenChat={onOpenChat} onOpenMenu={onOpenMenu} onShare={onShare} />)}
+      {feed.items.map((post) => <PostCard key={post.id} post={post} onOpenPersona={onOpenPersona} onOpenChat={onOpenChat} onOpenMenu={onOpenMenu} onShare={onShare} />)}
     </ListState>}
   </div>
 }

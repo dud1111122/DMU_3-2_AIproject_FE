@@ -50,7 +50,7 @@ export function MeScreen({ onOpen, onOpenMode }) {
       <p className="text-[13px] font-semibold">비회원으로 둘러보는 중이에요</p>
       <p className="mt-1 text-[12px] leading-5 text-[#737373]">로그인하면 팔로우·좋아요·저장, 복습, 내 토론을 쓸 수 있어요.</p>
       <button onClick={() => promptLogin('로그인하면 계정 기능을 쓸 수 있어요.')} className="mt-3 h-9 rounded-lg bg-[#0095f6] px-5 text-[12px] font-semibold text-white">로그인</button>
-      <p className="mt-2 text-[10px] text-[#8e8e8e]">시연 계정 · demo / demo1234</p>
+      <p className="mt-2 text-[10px] text-[#8e8e8e]">시연 계정 · demo / demo-local-1234</p>
     </section>}
 
     <Section title="화면 모드">
