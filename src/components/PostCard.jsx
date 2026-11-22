@@ -99,18 +99,22 @@ export function ActionBar({ post, carousel, onOpenChat, onShare }) {
   </div>
 }
 
+// onOpenPost를 넘기지 않으면 카드 탭·'자세히 보기'로 상세에 들어가지 않는다. 인스타그램 모드 홈이 그렇다. 기획 §4.
 export default function PostCard({ post, onOpenPost, onOpenPersona, onOpenChat, onOpenMenu, onShare }) {
   const { likeCount } = useStore()
   const carousel = useCarousel(post.sections.length)
+  const counts = post.keyPoints ? `학습 포인트 ${post.keyPoints.length}개 · 참고 문헌 ${post.sources.length}개` : ''
   return <article className="border-b border-[#efefef] pb-3" aria-label={`${post.persona.displayName}의 게시물: ${post.title}`}>
     <PersonaHeader post={post} onOpenPersona={onOpenPersona} onOpenMenu={onOpenMenu} />
-    <Carousel post={post} carousel={carousel} onTap={() => onOpenPost(post)} />
+    <Carousel post={post} carousel={carousel} onTap={onOpenPost ? () => onOpenPost(post) : undefined} />
     <ActionBar post={post} carousel={carousel} onOpenChat={onOpenChat} onShare={onShare} />
     <div className="px-3 text-[13px] leading-[1.5]">
       <p className="font-semibold">좋아요 {likeCount(post).toLocaleString('ko-KR')}개</p>
       <p className="mt-1"><button onClick={() => onOpenPersona(post.persona)} className="mr-1 font-semibold">{post.persona.username}</button><strong className="font-semibold">{post.title}</strong></p>
       {post.caption && <p className="mt-0.5 line-clamp-2 text-[#262626]">{post.caption}</p>}
-      <button onClick={() => onOpenPost(post)} className="mt-1 text-[12px] text-[#737373]">{post.keyPoints ? `학습 포인트 ${post.keyPoints.length}개 · 참고 문헌 ${post.sources.length}개 · ` : ''}자세히 보기</button>
+      {onOpenPost
+        ? <button onClick={() => onOpenPost(post)} className="mt-1 text-[12px] text-[#737373]">{counts ? `${counts} · ` : ''}자세히 보기</button>
+        : counts && <p className="mt-1 text-[12px] text-[#737373]">{counts}</p>}
       <p className="mt-1 text-[10px] text-[#8e8e8e]">{formatDate(post.publishedAt)} · AI가 생성한 게시물</p>
     </div>
   </article>

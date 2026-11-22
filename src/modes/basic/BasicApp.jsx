@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import PhoneFrame from '../../shared/PhoneFrame.jsx'
+import useBrowserBack from '../../shared/useBrowserBack.js'
 import { PledgeGate } from '../../shared/PledgeSheet.jsx'
 import { BIcon, NavContext, SheetRootContext } from './ui.jsx'
 import BasicHome from './BasicHome.jsx'
@@ -36,6 +37,8 @@ export default function BasicApp({ onChangeMode }) {
   const back = () => setStacks((all) => ({ ...all, [tab]: all[tab].length > 1 ? all[tab].slice(0, -1) : all[tab] }))
   const goTab = (id, next) => { setTab(id); setStacks((all) => ({ ...all, [id]: next ? [entry(id), entry(next.screen, next)] : all[id] || [entry(id)] })) }
   const selectTab = (id) => id === tab ? setStacks((all) => ({ ...all, [id]: all[id].slice(0, 1) })) : goTab(id)
+  // 지금 탭에 쌓인 화면 수를 브라우저 기록과 맞춘다. 기획 §4.
+  useBrowserBack(stack.length, back)
 
   const nav = {
     push, back, goTab,

@@ -35,7 +35,9 @@ export default function InstagramApp({ onChangeMode }) {
   const openQuiz = (post) => go({ screen: 'quiz', postId: post.id, post: post.sections ? post : null })
   const openDebate = (debate) => go({ screen: 'debate', debateId: debate.id })
   const startDebate = (persona) => go({ screen: 'debates', initialPersonas: [persona] })
-  const openMenu = (post) => setSheet({ type: 'menu', post })
+  const openMenu = (post) => setSheet({ type: 'menu', post, canOpen: true })
+  // 홈에서는 상세로 가는 경로를 두지 않으므로 메뉴에도 '게시물 자세히 보기'를 넣지 않는다. 기획 §4.
+  const openHomeMenu = (post) => setSheet({ type: 'menu', post, canOpen: false })
   const openReport = (post) => { setSheet(null); if (requireMember('신고는 로그인 후 사용할 수 있어요.')) setSheet({ type: 'report', post }) }
   const openFromMe = (screen) => (screen === 'learning' || screen === 'debates' ? openTab(screen) : go({ screen }))
   const share = async (post) => {
@@ -45,7 +47,7 @@ export default function InstagramApp({ onChangeMode }) {
   const immersive = current.screen === 'chat'
   const renderScreen = () => {
     switch (current.screen) {
-      case 'home': return <HomeScreen onOpenPost={openPost} onOpenPersona={openPersona} onOpenChat={openChat} onOpenMenu={openMenu} onShare={share} />
+      case 'home': return <HomeScreen onOpenPersona={openPersona} onOpenChat={openChat} onOpenMenu={openHomeMenu} onShare={share} />
       case 'search': return <ExploreScreen onOpenPost={openPost} onOpenPersona={openPersona} />
       case 'debates': return <DebateHome initialPersonas={current.initialPersonas || []} onBack={nav.canGoBack ? nav.back : null} onOpenDebate={openDebate} />
       case 'learning': return <LearningScreen onOpenPost={openPost} onOpenChat={openChat} />
@@ -69,7 +71,7 @@ export default function InstagramApp({ onChangeMode }) {
 
     {sheet?.type === 'menu' && <Sheet title="게시물 메뉴" onClose={() => setSheet(null)}>
       <button onClick={() => { setSheet(null); openPersona(sheet.post.persona) }} className="flex h-12 w-full items-center gap-3 text-left text-[14px]"><Icon name="user" size={21} />게시자 프로필 보기</button>
-      <button onClick={() => openPost(sheet.post)} className="flex h-12 w-full items-center gap-3 text-left text-[14px]"><Icon name="layers" size={21} />게시물 자세히 보기</button>
+      {sheet.canOpen && <button onClick={() => openPost(sheet.post)} className="flex h-12 w-full items-center gap-3 text-left text-[14px]"><Icon name="layers" size={21} />게시물 자세히 보기</button>}
       <button onClick={() => { setSheet(null); share(sheet.post) }} className="flex h-12 w-full items-center gap-3 text-left text-[14px]"><Icon name="send" size={21} />공유 문구 복사</button>
       <button onClick={() => openReport(sheet.post)} className="flex h-12 w-full items-center gap-3 text-left text-[14px] text-[#e5484d]"><Icon name="flag" size={21} />신고하기</button>
     </Sheet>}
