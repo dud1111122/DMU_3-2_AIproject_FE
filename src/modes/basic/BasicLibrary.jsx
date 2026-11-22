@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { api, API_MODE } from '../../api/index.js'
+import { api } from '../../api/index.js'
 import { errorMessage } from '../../api/errors.js'
 import { usePaged } from '../../shared/hooks.js'
 import { useStore } from '../../shared/store.jsx'
@@ -24,7 +24,7 @@ export function BasicMe({ onChangeMode }) {
         <h2 id="me-guest" className="font-basic text-[18px] font-bold text-balance">로그인하지 않은 상태예요</h2>
         <p className="mt-2 text-[12px] leading-5 text-[#6f6b63]">로그인하면 팔로우·좋아요·저장과 퀴즈 기록, 복습, 토론 기록을 남길 수 있어요. 지금은 글 읽기·퀴즈·대화를 체험할 수 있어요. 토론은 로그인 후 만들 수 있어요.</p>
         <PrimaryButton onClick={() => promptLogin('로그인하면 팔로우·저장·복습 기록을 남길 수 있어요.')} className="mt-4 w-full">로그인</PrimaryButton>
-        {API_MODE === 'mock' && <p className="mt-2 text-center text-[11px] text-[#6f6b63]">시연 계정 · demo / demo-local-1234</p>}
+        <p className="mt-2 text-center text-[11px] text-[#6f6b63]">시연 계정 · demo / demo-local-1234</p>
       </section>}
 
       {isMember && <section className="rounded-2xl border border-[#e7e3da] bg-white p-5" aria-labelledby="me-account">
@@ -55,6 +55,15 @@ export function BasicMe({ onChangeMode }) {
         </div>
       </section>
 
+      <section className="mt-7" aria-labelledby="me-mode">
+        <SectionTitle id="me-mode">화면 모드</SectionTitle>
+        <p className="mt-2 text-[11px] leading-5 text-[#6f6b63]">모드를 바꿔도 같은 글과 저장·좋아요·팔로우 상태가 그대로 유지돼요.</p>
+        <div className="mt-3 space-y-2">{modes.map((mode) => <button key={mode.id} onClick={() => mode.id !== 'basic' && onChangeMode(mode.id)} aria-pressed={mode.id === 'basic'} className={`flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-left ${mode.id === 'basic' ? 'border-[#1c1b19] bg-white' : 'border-[#e7e3da]'}`}>
+          <span className="flex-1"><strong className="block text-[14px]">{mode.label}</strong><span className="text-[12px] text-[#6f6b63]">{mode.description}</span></span>
+          {mode.id === 'basic' ? <span className="flex items-center gap-1 text-[11px] font-semibold text-[#2f5d50]"><Icon name="check" size={16} strokeWidth={2.4} />사용 중</span> : <Icon name="chevron" size={18} className="text-[#a39e93]" />}
+        </button>)}</div>
+      </section>
+
       <section className="mt-7" aria-labelledby="me-bundle">
         <SectionTitle id="me-bundle">묶음 보기</SectionTitle>
         <p className="mt-2 text-[11px] leading-5 text-[#6f6b63]">홈 피드와 쇼츠에서 한 번에 볼 게시물 수예요. 묶음을 다 보면 멈출지 정할 수 있어요. 이 기기에 저장돼요.</p>
@@ -66,15 +75,6 @@ export function BasicMe({ onChangeMode }) {
         <div className="mt-2 divide-y divide-[#e7e3da] rounded-xl border border-[#e7e3da] bg-white">
           <MenuRow icon="refresh" label="처음 안내 다시 보기" onClick={() => { nav.goTab('home'); restartGuide('basic') }} />
         </div>
-      </section>
-
-      <section className="mt-7" aria-labelledby="me-mode">
-        <SectionTitle id="me-mode">화면 모드</SectionTitle>
-        <p className="mt-2 text-[11px] leading-5 text-[#6f6b63]">모드를 바꿔도 같은 글과 저장·좋아요·팔로우 상태가 그대로 유지돼요.</p>
-        <div className="mt-3 space-y-2">{modes.map((mode) => <button key={mode.id} onClick={() => mode.id !== 'basic' && onChangeMode(mode.id)} aria-pressed={mode.id === 'basic'} className={`flex w-full items-center gap-3 rounded-xl border px-4 py-3 text-left ${mode.id === 'basic' ? 'border-[#1c1b19] bg-white' : 'border-[#e7e3da]'}`}>
-          <span className="flex-1"><strong className="block text-[14px]">{mode.label}</strong><span className="text-[12px] text-[#6f6b63]">{mode.description}</span></span>
-          {mode.id === 'basic' ? <span className="flex items-center gap-1 text-[11px] font-semibold text-[#2f5d50]"><Icon name="check" size={16} strokeWidth={2.4} />사용 중</span> : <Icon name="chevron" size={18} className="text-[#a39e93]" />}
-        </button>)}</div>
       </section>
 
       <p className="mt-8 border-t border-[#e7e3da] pt-4 text-[11px] leading-5 text-[#6f6b63]">디쇼츠는 AI 페르소나가 쓴 지식 글을 보여줘요. 글마다 출처와 AI 표시를 확인해 주세요.<br />{topics.length ? `주제 ${topics.length}개` : ''} · 버전 0.1</p>

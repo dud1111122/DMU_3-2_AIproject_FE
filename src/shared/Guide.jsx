@@ -48,10 +48,11 @@ export default function Guide({ steps, mode, dark = false, onClose }) {
   }, [])
   useEffect(() => { if (list && !list.length) setGuideRunning(false) }, [list])
 
-  // 대상이 화면 밖이면 먼저 끌어온다. 움직이는 건 구멍이 맡으므로 스크롤은 즉시 처리한다.
+  // 대상을 화면 가운데로 끌어온다. 움직이는 건 구멍이 맡으므로 스크롤은 즉시 처리한다.
+  // 'nearest'로 하면 화면 맨 위에 붙어 고정된 상단 바 뒤에 깔리므로 'center'를 쓴다.
   useEffect(() => {
     if (!step?.target) return
-    document.querySelector(step.target)?.scrollIntoView({ block: 'nearest', behavior: 'auto' })
+    document.querySelector(step.target)?.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' })
   }, [step])
 
   // 대상 위치는 매 프레임 다시 재어 레이아웃이 바뀌어도 구멍이 따라가게 한다.
