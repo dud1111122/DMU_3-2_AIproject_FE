@@ -47,8 +47,8 @@ export function FeedHeader({ onBack, onSearch, onMenu, children }) {
     <header className="flex h-12 items-center">
       {onBack ? <button onClick={onBack} aria-label="뒤로" className="pointer-events-auto grid h-12 w-12 place-items-center"><Icon name="back" size={24} /></button>
         : <span className="shorts-shadow pl-4 text-[20px] font-bold tracking-[-.04em]">디쇼츠</span>}
-      <button onClick={onSearch} aria-label="디쇼츠 검색" className="shorts-icon-shadow pointer-events-auto ml-auto grid h-12 w-12 place-items-center"><Icon name="search" size={24} /></button>
-      <button onClick={onMenu} aria-label="추가 메뉴" className="shorts-icon-shadow pointer-events-auto ml-0 mr-2 grid h-8 w-8 place-items-center rounded-full"><Icon name="dots" size={24} strokeWidth={2.4} /></button>
+      <button onClick={onSearch} aria-label="디쇼츠 검색" data-guide="shorts-search" className="shorts-icon-shadow pointer-events-auto ml-auto grid h-12 w-12 place-items-center"><Icon name="search" size={24} /></button>
+      <button onClick={onMenu} aria-label="추가 메뉴" data-guide="shorts-menu" className="shorts-icon-shadow pointer-events-auto ml-0 mr-2 grid h-8 w-8 place-items-center rounded-full"><Icon name="dots" size={24} strokeWidth={2.4} /></button>
     </header>
     {children}
   </div>
